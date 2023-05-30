@@ -22,7 +22,7 @@ type Renderable interface {
 }
 
 func NewRenderer(c *Canvas, windowSize utils.Vector) *Renderer {
-	return &Renderer{canvas: c, windowSize: windowSize, alpha: 0.03}
+	return &Renderer{canvas: c, windowSize: windowSize, alpha: 0.1}
 }
 
 /*func IsRenderable(obj interface{}) (Renderable, bool) {
@@ -38,7 +38,9 @@ func (r *Renderer) RenderObjects(objects map[physics.Object]struct{}, deltaTime 
 
 	r.deltaTime = r.alpha*float64(deltaTime.Milliseconds()) + (1-r.alpha)*r.deltaTime
 	fps := int(math.Floor(1000 / r.deltaTime))
-	r.canvas.FillText(fmt.Sprintf("FPS: %d", fps), utils.NewVector(10, 10), 200)
+
+	r.canvas.canvas.SetFont("24px serif")
+	r.canvas.FillText(fmt.Sprintf("FPS: %d", fps), utils.NewVector(30, 30), 200)
 
 	for object := range objects {
 		//fmt.Println("Rendering", object)

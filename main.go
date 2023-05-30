@@ -18,11 +18,11 @@ import (
 
 func main() {
 
-	currentGame := game.NewGame()
-	global.SetGame(currentGame)
-
 	canvas, windowSize := createCanvas()
 	renderer := rendering.NewRenderer(canvas, windowSize)
+
+	currentGame := game.NewGame(windowSize)
+	global.SetGame(currentGame)
 
 	canvas.LoadImage("gopher.png")
 	canvas.LoadImage("pipe.png")
@@ -82,8 +82,8 @@ func main() {
 	currentGame.Player = gopher
 	currentGame.Spawn(gopher)
 
-	floor := actors.NewAFloor(utils.NewVector(1500, 150))
-	floor.SetPosition(utils.NewVector(0, 800))
+	floor := actors.NewAFloor(utils.NewVector(windowSize.X, 150))
+	floor.SetPosition(utils.NewVector(0, windowSize.Y))
 	currentGame.Spawn(floor)
 
 	select {}
@@ -95,9 +95,13 @@ func createCanvas() (*rendering.Canvas, utils.Vector) {
 	domCanvas.SetWidth(dom.GetWindow().InnerWidth())
 	dom.GetWindow().Document().QuerySelector("body").AppendChild(domCanvas)
 
-	return rendering.NewCanvas(domCanvas.GetContext2d()),
+	scale := float64(dom.GetWindow().InnerHeight()) / 1080.0 * 2
+
+	ctx := domCanvas.GetContext2d()
+	ctx.Scale(scale, scale)
+	return rendering.NewCanvas(ctx),
 		utils.Vector{
-			X: float64(dom.GetWindow().InnerWidth()),
-			Y: float64(dom.GetWindow().InnerHeight()),
+			X: float64(dom.GetWindow().InnerWidth()) / scale,
+			Y: float64(dom.GetWindow().InnerHeight()) / scale,
 		}
 }

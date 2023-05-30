@@ -23,19 +23,22 @@ type Game struct {
 	wallsCount       int
 	targetWallsCount int
 
-	gameOver bool
+	gameOver    bool
+	windowsSize utils.Vector
 
 	Player *actors.AGopher
 }
 
-func NewGame() *Game {
+func NewGame(windowsSize utils.Vector) *Game {
 	return &Game{
 		Objects:          make(map[physics.Object]struct{}),
 		physicsEngine:    physics.NewPhysicsEngine(),
 		wallSpeed:        25,
 		wallsDistance:    50,
-		wallGap:          250,
+		wallGap:          windowsSize.Y * 0.4,
 		targetWallsCount: 5,
+
+		windowsSize: windowsSize,
 	}
 }
 
@@ -80,11 +83,11 @@ func (g *Game) spawnBalls() {
 		var ball *actors.ABall
 		if rand.Float64() > 0.5 {
 			ball = actors.NewABall(15)
-			ball.SetPosition(utils.NewVector(1500, 700))
+			ball.SetPosition(utils.NewVector(g.windowsSize.X, g.windowsSize.Y-100))
 			ball.ApplyForce(utils.NewVector(-40, rand.Float64()*35-5))
 		} else {
 			ball = actors.NewAFireball(15)
-			ball.SetPosition(utils.NewVector(1500, 780))
+			ball.SetPosition(utils.NewVector(g.windowsSize.X, g.windowsSize.Y-30))
 			ball.ApplyForce(utils.NewVector(-60, 0))
 		}
 		g.Spawn(ball)
@@ -97,7 +100,7 @@ func (g *Game) spawnWalls() {
 		g.wallPosition = 0
 		g.wallsCount++
 
-		gapY := rand.Float64()*(800-2*g.wallGap) + g.wallGap/2
+		gapY := rand.Float64()*(g.windowsSize.Y-2*g.wallGap) + g.wallGap/2
 		wallHeight := 600.0
 
 		wall1 := actors.NewAWall(utils.NewVector(50, wallHeight))
