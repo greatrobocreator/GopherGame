@@ -24,6 +24,7 @@ type Game struct {
 	targetWallsCount int
 
 	gameOver    bool
+	timeScale   float64
 	windowsSize utils.Vector
 
 	Player *actors.AGopher

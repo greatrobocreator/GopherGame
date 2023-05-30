@@ -35,7 +35,6 @@ func (c *Canvas) DrawCircle(pos Vector, radius float64) {
 	c.canvas.BeginPath()
 	c.canvas.Arc(pos.X, pos.Y, radius, 0, math.Pi*2, false)
 	c.canvas.Fill()
-	//c.canvas.ClosePath()
 }
 
 func (c *Canvas) FillRect(rect utils.Rectangle) {
@@ -92,6 +91,10 @@ func (c *Canvas) Save() {
 
 func (c *Canvas) Restore() {
 	c.canvas.Restore()
+}
+
+func (c *Canvas) SetGlobalCompositeOperation(s string) {
+	c.canvas.SetGlobalCompositeOperation(s)
 }
 
 /*type WrapCanvas struct {

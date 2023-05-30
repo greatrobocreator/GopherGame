@@ -36,12 +36,6 @@ func NewRenderer(c *Canvas, windowSize utils.Vector) *Renderer {
 func (r *Renderer) RenderObjects(objects map[physics.Object]struct{}, deltaTime time.Duration) {
 	r.canvas.ClearRect(utils.Rectangle{Size: r.windowSize})
 
-	r.deltaTime = r.alpha*float64(deltaTime.Milliseconds()) + (1-r.alpha)*r.deltaTime
-	fps := int(math.Floor(1000 / r.deltaTime))
-
-	r.canvas.canvas.SetFont("24px serif")
-	r.canvas.FillText(fmt.Sprintf("FPS: %d", fps), utils.NewVector(30, 30), 200)
-
 	for object := range objects {
 		//fmt.Println("Rendering", object)
 		if v, ok := object.(Renderable); ok {
@@ -53,4 +47,10 @@ func (r *Renderer) RenderObjects(objects map[physics.Object]struct{}, deltaTime 
 			r.canvas.Restore()
 		}
 	}
+
+	r.deltaTime = r.alpha*float64(deltaTime.Milliseconds()) + (1-r.alpha)*r.deltaTime
+	fps := int(math.Floor(1000 / r.deltaTime))
+
+	r.canvas.canvas.SetFont("24px serif")
+	r.canvas.FillText(fmt.Sprintf("FPS: %d", fps), utils.NewVector(30, 30), 200)
 }

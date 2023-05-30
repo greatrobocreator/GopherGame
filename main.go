@@ -8,6 +8,7 @@ import (
 
 	global "gitlab.com/slon/shad-go/wasm/flappygopher/src"
 	"gitlab.com/slon/shad-go/wasm/flappygopher/src/actors"
+	"gitlab.com/slon/shad-go/wasm/flappygopher/src/animations"
 	"gitlab.com/slon/shad-go/wasm/flappygopher/src/game"
 	"gitlab.com/slon/shad-go/wasm/flappygopher/src/rendering"
 	"gitlab.com/slon/shad-go/wasm/flappygopher/src/utils"
@@ -30,6 +31,10 @@ func main() {
 
 	for i := 1; i <= 5; i += 1 {
 		canvas.LoadImage(fmt.Sprintf("fireball/FB00%d.png", i))
+	}
+
+	for i := 1; i <= 3; i += 1 {
+		canvas.LoadImage(fmt.Sprintf("background/%d.jpg", i))
 	}
 
 	moveRightAxisValue := 0.0
@@ -89,6 +94,16 @@ func main() {
 	floor := actors.NewAFloor(utils.NewVector(windowSize.X, windowSize.Y))
 	floor.SetPosition(utils.NewVector(0, windowSize.Y))
 	currentGame.Spawn(floor)
+
+	backgroundFrames := make([]string, 3)
+	for i := 0; i < len(backgroundFrames); i += 1 {
+		backgroundFrames[i] = fmt.Sprintf("background/%d.jpg", i+1)
+	}
+	backgroundAnimation := animations.NewBasicAnimation(backgroundFrames, time.Second, utils.NewRectangle(utils.NewVector(0, 0), windowSize))
+
+	background := actors.NewABackground(windowSize, []rendering.Renderable{backgroundAnimation})
+	background.ApplyForce(utils.NewVector(-25, 0))
+	currentGame.Spawn(background)
 
 	select {}
 }

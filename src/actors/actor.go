@@ -18,7 +18,7 @@ func (a *AActor) GetRotation() float64              { return a.rotation }
 func (a *AActor) EventTick(deltaTime time.Duration) {}
 
 func (a *AActor) Collider() utils.Shape {
-	return utils.NewRectangle(a.position, utils.NewVector(1, 1))
+	return utils.NewRectangle(a.position, utils.NewVector(0, 0))
 }
 func (a *AActor) EventHit(other physics.PhysicsBody) {}
 
