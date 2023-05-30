@@ -66,6 +66,10 @@ func main() {
 		}
 	})
 
+	dom.GetWindow().AddEventListener("mousedown", false, func(e dom.Event) {
+		currentGame.EventSpace()
+	})
+
 	dom.GetWindow().AddEventListener("keyup", false, func(e dom.Event) {
 		key := e.(*dom.KeyboardEvent).Get("code").String()
 		/*if key == "Space" || key == "ArrowUp" {
