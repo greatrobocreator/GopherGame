@@ -36,6 +36,7 @@ func (b *ABackground) Render(canvas *rendering.Canvas, deltaTime time.Duration) 
 	fmt.Println("Background: ", framesCount, x, ind, b.size.X)
 
 	canvas.SetGlobalCompositeOperation("destination-over")
+	//ca.Set("imageSmoothingEnabled", false)
 	canvas.Translate(utils.NewVector(b.size.X*framesCount, 0))
 	b.frames[ind%len(b.frames)].Render(canvas, deltaTime)
 	canvas.Translate(utils.NewVector(b.size.X-1, 0))

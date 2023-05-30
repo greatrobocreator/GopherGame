@@ -34,7 +34,7 @@ func main() {
 	}
 
 	for i := 1; i <= 3; i += 1 {
-		canvas.LoadImage(fmt.Sprintf("background/%d.jpg", i))
+		canvas.LoadImage(fmt.Sprintf("background/bg%d.png", i))
 	}
 
 	moveRightAxisValue := 0.0
@@ -97,7 +97,7 @@ func main() {
 
 	backgroundFrames := make([]string, 3)
 	for i := 0; i < len(backgroundFrames); i += 1 {
-		backgroundFrames[i] = fmt.Sprintf("background/%d.jpg", i+1)
+		backgroundFrames[i] = fmt.Sprintf("background/bg%d.png", i+1)
 	}
 	backgroundAnimation := animations.NewBasicAnimation(backgroundFrames, time.Second, utils.NewRectangle(utils.NewVector(0, 0), windowSize))
 
@@ -118,6 +118,7 @@ func createCanvas() (*rendering.Canvas, utils.Vector) {
 
 	ctx := domCanvas.GetContext2d()
 	ctx.Scale(scale, scale)
+	ctx.Set("imageSmoothingEnabled", false)
 	return rendering.NewCanvas(ctx),
 		utils.Vector{
 			X: float64(dom.GetWindow().InnerWidth()) / scale,
