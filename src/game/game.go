@@ -66,7 +66,7 @@ func (g *Game) updateObstacles(deltaTime time.Duration) {
 	} else {
 		g.spawnBalls()
 	}
-	if g.wallPosition >= 3*g.wallsDistance {
+	if g.wallPosition >= 5*g.wallsDistance {
 		g.Player.BecomeWalking()
 		g.spawnBalls()
 	}
@@ -82,13 +82,13 @@ func (g *Game) spawnBalls() {
 
 		var ball *actors.ABall
 		if rand.Float64() > 0.5 {
-			ball = actors.NewABall(15)
-			ball.SetPosition(utils.NewVector(g.windowsSize.X, g.windowsSize.Y-100))
-			ball.ApplyForce(utils.NewVector(-40, rand.Float64()*35-5))
+			ball = actors.NewABall(g.windowsSize.Y / 50)
+			ball.SetPosition(utils.NewVector(g.windowsSize.X, g.windowsSize.Y-200))
+			ball.ApplyForce(utils.NewVector(-60, (rand.Float64()-0.25)*50))
 		} else {
-			ball = actors.NewAFireball(15)
+			ball = actors.NewAFireball(g.windowsSize.Y / 50)
 			ball.SetPosition(utils.NewVector(g.windowsSize.X, g.windowsSize.Y-30))
-			ball.ApplyForce(utils.NewVector(-60, 0))
+			ball.ApplyForce(utils.NewVector(-100, 0))
 		}
 		g.Spawn(ball)
 	}
@@ -101,13 +101,13 @@ func (g *Game) spawnWalls() {
 		g.wallsCount++
 
 		gapY := rand.Float64()*(g.windowsSize.Y-2*g.wallGap) + g.wallGap/2
-		wallHeight := 600.0
+		wallHeight := g.windowsSize.Y
 
-		wall1 := actors.NewAWall(utils.NewVector(50, wallHeight))
-		wall2 := actors.NewAWall(utils.NewVector(50, wallHeight))
+		wall1 := actors.NewAWall(utils.NewVector(wallHeight/12, wallHeight))
+		wall2 := actors.NewAWall(utils.NewVector(wallHeight/12, wallHeight))
 
-		wall1.SetPosition(utils.NewVector(1500, -wallHeight+gapY))
-		wall2.SetPosition(utils.NewVector(1500, g.wallGap+gapY))
+		wall1.SetPosition(utils.NewVector(g.windowsSize.X, -wallHeight+gapY))
+		wall2.SetPosition(utils.NewVector(g.windowsSize.X, g.wallGap+gapY))
 
 		wall1.ApplyForce(utils.NewVector(-25, 0))
 		wall2.ApplyForce(utils.NewVector(-25, 0))

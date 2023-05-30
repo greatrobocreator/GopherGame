@@ -81,12 +81,12 @@ func main() {
 		}
 	})
 
-	gopher := actors.NewAGopher(50, utils.NewVector(50, 44))
-	gopher.SetPosition(utils.NewVector(200, 100))
+	gopher := actors.NewAGopher(50, utils.NewVector(windowSize.Y/10, windowSize.Y/10*88/100))
+	gopher.SetPosition(utils.NewVector(windowSize.X*0.1, windowSize.Y*0.5))
 	currentGame.Player = gopher
 	currentGame.Spawn(gopher)
 
-	floor := actors.NewAFloor(utils.NewVector(windowSize.X, 150))
+	floor := actors.NewAFloor(utils.NewVector(windowSize.X, windowSize.Y))
 	floor.SetPosition(utils.NewVector(0, windowSize.Y))
 	currentGame.Spawn(floor)
 
@@ -99,7 +99,7 @@ func createCanvas() (*rendering.Canvas, utils.Vector) {
 	domCanvas.SetWidth(dom.GetWindow().InnerWidth())
 	dom.GetWindow().Document().QuerySelector("body").AppendChild(domCanvas)
 
-	scale := float64(dom.GetWindow().InnerHeight()) / 1080.0 * 2
+	scale := float64(dom.GetWindow().InnerHeight()) / 1080.0
 
 	ctx := domCanvas.GetContext2d()
 	ctx.Scale(scale, scale)

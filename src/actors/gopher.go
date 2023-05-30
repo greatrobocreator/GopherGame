@@ -91,6 +91,6 @@ func (g *AGopher) EventLeftDown() {
 
 func (g *AGopher) EventMoveRight(axisValue float64) {
 	if !g.dead && g.walking {
-		g.velocity.X = 20 * axisValue
+		g.velocity.X = 40 * axisValue
 	}
 }
